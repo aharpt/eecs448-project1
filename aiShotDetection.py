@@ -66,6 +66,7 @@ def shot(player):
                    # xChar = xShot[0]
                 elif (ai == 2):
                     xShot = hardAI.hitShip()
+                    print(xShot)
                     xChar = xShot[0]
             if xChar == "A" or xChar == "a" or xChar == 0:
                 xCoord = 0
