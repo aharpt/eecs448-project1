@@ -1,8 +1,20 @@
 # KayLee Mitchell
 # Medium AI control
 
-# import random, Easy
+import random, easy, aiShotDetection, shipPlacement2
 
+shotArrAI = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+]
 
 next_shot = 0
 """
@@ -40,17 +52,39 @@ hit = False
 """
     generates a random shot
     records if its a hit or miss
-    
+
     if its a hit, record the initial location (x, y)
     then iterate through next available spaces going clockwise starting up
-    
+
     the only case not included is the 1x1 ship case that gets hit
         this will be taken care of outside the code
-    
-"""
 
-def AIshooter():
+"""
+playerShipArr = shipPlacement2.p1shipArr
+
+def simpleAIShooter(xCoord, yCoord):
+    global next_shot
+    next_shot = 1
+
+    if (next_shot == 1):
+        upCoords = simpleLookUp(xCoord, yCoord)
+        print("up coordinates")
+
+
+
+def AIshooter(xCoord, yCoord):
     global next_shot, orientation, x_orig, y_orig, x_ref, y_ref, hit
+
+    hit = True
+    x_orig = xCoord
+    y_orig = yCoord
+
+    next_shot = 1
+    orientation = 2
+    # x_orig = shot[0]
+    # y_orig = shot[1]
+    x_ref = x_orig
+    y_ref = y_orig
 
     if next_shot == 1:
         look_up(x_ref, y_ref)
@@ -60,28 +94,24 @@ def AIshooter():
         look_down(x_ref, y_ref)
     elif next_shot == 4:
         look_left(x_ref, y_ref)
-    else:
-        # random shot, record x and y coordinate in tuple shot
-        if hit:
-            next_shot = 1
-            orientation = 2
-            # x_orig = shot[0]
-            # y_orig = shot[1]
-            x_ref = x_orig
-            y_ref = y_orig
-        else:
-            next_shot = 0
-            orientation = 2
-            x_orig = 0
-            y_orig = 0
-            x_ref = x_orig
-            y_ref = y_orig
+    # else:
+    #     # random shot, record x and y coordinate in tuple shot
+    #     if hit:
+    #         next_shot = 1
+    #         orientation = 2
+    #         # x_orig = shot[0]
+    #         # y_orig = shot[1]
+    #         x_ref = x_orig
+    #         y_ref = y_orig
+    #     else:
+    #         next_shot = 0
+    #         orientation = 2
+    #         x_orig = 0
+    #         y_orig = 0
+    #         x_ref = x_orig
+    #         y_ref = y_orig
 
-    return
-
-
-
-
+    return [x_ref, y_ref];
 
 def look_up(x,y):
     global next_shot, orientation, x_orig, y_orig, x_ref, y_ref, hit
@@ -105,7 +135,10 @@ def look_up(x,y):
         x_ref = x
         y_ref = y - 1
 
-    return
+
+
+
+    return [x_ref, y_ref]
 
 def look_right(x,y):
     global next_shot, orientation, x_orig, y_orig, x_ref, y_ref, hit
