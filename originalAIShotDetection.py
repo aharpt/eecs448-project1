@@ -2,7 +2,7 @@
 # user shot selection
 
 
-import easy, shipPlacement2, time, shotDetection
+import Easy, shipPlacement2, time, shotDetection
 
 p1shotCount = 0
 p2shotCount = 0
@@ -57,7 +57,7 @@ def shot(player):
             if player == 1:
                 xChar = input('Enter a column [A-J] to fire upon: ')
             else:
-                xShot = easy.getShot()
+                xShot = Easy.getShot()
                 xChar = xShot[0]
             if xChar == "A" or xChar == "a":
                 xCoord = 0
