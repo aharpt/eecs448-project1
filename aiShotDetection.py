@@ -2,7 +2,7 @@
 # user shot selection
 
 
-import easy, shipPlacement2, time ,hardAI, shotDetection, Medium, Med
+import easy, shipPlacement2, time ,hardAI, shotDetection, Medium, Med, scoreBoardLogic
 
 p1shotCount = 0
 p2shotCount = 0
@@ -107,6 +107,11 @@ def shot(player):
             repeat = False
             if player == 1:
                 yCoord = input('Enter a row [1-10] to fire upon: ')
+
+                while not yCoord.isnumeric():
+                    print("Invalid input (out of [1-10] range). Try again")
+                    yCoord = input('Enter a row [1-10] to fire upon: ')
+
                 if int(yCoord) > 10 or int(yCoord) < 1:
                     print("Invalid input (out of [1-10] range). Try again")
                     repeat = True
@@ -148,6 +153,8 @@ def shot(player):
 
         print("Shot hit!")
         shipPlacement2.objArr[player - 1][enemyShipArr[yCoord][xCoord] - 1].hit()  # register hit in ship object
+        scoreBoardLogic.scores[player-1] += 1
+        scoreBoardLogic.printScoreboard(1)
         input("Switch players then press Enter to continue...")
         print(chr(27) + "[2J")
     else:
@@ -157,4 +164,5 @@ def shot(player):
         else:
             print("Player 2: ", end="")
         print("Shot missed.")
+        scoreBoardLogic.printScoreboard(1)
         input("Switch players then press Enter to continue...")

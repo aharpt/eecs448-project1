@@ -2,34 +2,34 @@
 #user shot selection
 
 
-import shipPlacement2, time
+import shipPlacement2, time, scoreBoardLogic
 
 p1shotCount = 0
 p2shotCount = 0
 
 p1shotArr = [
-             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             ]
 
 p2shotArr = [
-             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             ]
 
@@ -48,10 +48,10 @@ def shot(player):
     else:
         shotArr = p2shotArr
         enemyShipArr = shipPlacement2.p1shipArr
-    
+
     #shot selection
     repeatAll = True
-    while repeatAll == True:  
+    while repeatAll == True:
       repeat = True
       while repeat == True:
           repeat = False
@@ -84,6 +84,11 @@ def shot(player):
       while repeat == True:
           repeat = False
           yCoord = input('Enter a row [1-10] to fire upon: ')
+
+          while not yCoord.isnumeric():
+              print("Invalid input (out of [1-10] range). Try again")
+              yCoord = input('Enter a row [1-10] to fire upon: ')
+
           if int(yCoord) > 10 or int(yCoord) < 1:
               print("Invalid input (out of [1-10] range). Try again")
               repeat = True
@@ -96,12 +101,11 @@ def shot(player):
           print("You have already fired on this location, please select another space:")
           repeatAll = True
 
-          
 
 
     #register shot
     shotArr[yCoord][xCoord] = 1
-    
+
     #shot feedback
     if not enemyShipArr[yCoord][xCoord] == 0 and not shotArr[yCoord][xCoord] == 0:
         print(chr(27) + "[2J")
@@ -115,6 +119,8 @@ def shot(player):
             print("Player 2: ", end="")
         print("Shot hit!")
         shipPlacement2.objArr[player-1][enemyShipArr[yCoord][xCoord] - 1].hit() #register hit in ship object
+        scoreBoardLogic.scores[player-1] += 1
+        scoreBoardLogic.printScoreboard(0)
         input("Switch players then press Enter to continue...")
         print(chr(27) + "[2J")
     else:
@@ -124,4 +130,5 @@ def shot(player):
         else:
             print("Player 2: ", end="")
         print("Shot missed.")
+        scoreBoardLogic.printScoreboard(0)
         input("Switch players then press Enter to continue...")

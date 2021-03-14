@@ -1,6 +1,6 @@
 #Name: Caden Kroonenberg
 
-import Print, shotDetection, shipPlacement2, aiPlacement, aiShotDetection
+import Print, shotDetection, shipPlacement2, aiPlacement, aiShotDetection, scoreBoardLogic
 from termcolor import colored
 
 def run(shipCount):
@@ -26,6 +26,7 @@ def run(shipCount):
     player = 1
     input("Press Enter and then switch players to continue...")
     print(chr(27) + "[2J")
+    scoreBoardLogic.initializeScore(shipPlacement2.playArr[0], shipPlacement2.playArr[1])
 
     while not endGame:
         if player == 1:
@@ -76,6 +77,7 @@ def runAI(shipCount):
     player = 1
     input("Press Enter and then switch players to continue...")
     print(chr(27) + "[2J")
+    scoreBoardLogic.initializeScore(shipPlacement2.playArr[0], shipPlacement2.playArr[1])
 
     while not endGame:
         if player == 1:
@@ -87,7 +89,6 @@ def runAI(shipCount):
         Print.printBottomMap(player)
         # shotDetection.shot(player) original
         aiShotDetection.shot(player)
-
         #check win condition and switch players if not
         if player == 1:
             if aiShotDetection.p1shotCount >= winCount: # original shotDetection.p1shotCount >= winCount:
@@ -125,7 +126,7 @@ while repeat == True:
 userInput = input("If you would like to play against the computer type 'computer', otherwise type any characters for a two-player game ")
 
 if (userInput == "computer"):
-    level = input("Please choose a difficulty level: Type 'Easy', 'Medium', or 'Hard'")
+    level = input("Please choose a difficulty level: Type 'Easy', 'Medium', or 'Hard' ")
 
     if (level == "Medium"):
         aiShotDetection.ai = 1
